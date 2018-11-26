@@ -1,13 +1,22 @@
 <?php
-require ("../entities/Client.php");
-require ("../entities/Produit.php");
 
-//Instance of new Client
-$my_client = new Client("Toto", 56);
-$my_product  = new Produit("Voiture");
+// Autoload the class
+function loadClass($classname){
+    if(file_exists('../model/'. $classname.'.php')) {
+        require '../model/'. $classname.'.php';
+    }
+    else {
+        require '../entities/' . $classname . '.php';
+    }
+}
 
-$my_client->addProductToBasket($my_product);
+spl_autoload_register('loadClass');
+
+
+$db = Database::DB();
+$personnageManager = new PersonnageManager($db);
+
+$personnages = $personnageManager->getPersonnages();
 
 
 include "../views/indexVue.php";
- ?>
